@@ -4,7 +4,7 @@
         "output_csv": "files_details.csv"
     },
     "loader_to_df": {
-        "source_file": "files_details1.csv"
+        "source_file": "files_details.csv"
     }
 
 }
