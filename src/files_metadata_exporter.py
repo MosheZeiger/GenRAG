@@ -9,7 +9,7 @@ import logging
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Dict, Any
 from my_common_utils.logger_setup import Logger
 
 # Initialize the logger
@@ -92,26 +92,45 @@ def get_file_details(file_path: Path):
         logger.error(f"An unexpected error occurred while processing file {file_path}: {e}", exc_info=True)
         return None
 
-def details_to_dataframe(Paths_stream: Iterable[Path]) -> pd.DataFrame:
+from typing import Iterator
+
+def stream_file_details(paths_stream: Iterable[Path]) -> Iterator[Dict[str, Any]]:
     """
     Processes a stream of file paths into a pandas DataFrame.
 
     Args:
         paths_stream: An iterable (like a list or a generator) of Path objects.
 
-    Returns:
-        A DataFrame containing file metadata.
+    Yields:
+        dict: A dictionary containing file metadata for each file.
     """
-    all_files_details = []
-    for file_path  in Paths_stream:
+    for file_path  in paths_stream:
         file_details = get_file_details(file_path )
         if file_details:
-            all_files_details.append(file_details)
+            yield file_details
+    logger.info("All file details have been processed and get the details.")
 
-    df = pd.DataFrame(all_files_details)
+def create_dataframe_from_details(details_stream: Iterable[Dict[str, Any]]) -> pd.DataFrame:
+    """
+    Constructs a pandas DataFrame from an iterable of file detail dictionaries.
+
+    This function efficiently consumes a generator or any iterable of dictionaries
+    and creates a DataFrame in a single operation.
+
+    Args:
+        details_stream: An iterable where each item is a dictionary
+                        of file metadata.
+
+    Returns:
+        A pandas DataFrame containing all the collected metadata.
+    """
+    logger.info("Starting to create DataFrame from file details.")
+    df = pd.DataFrame(details_stream)
+    logger.info(f"DataFrame created with {len(df)} rows.")
     return df
 
-def save_details_to_csv(df: pd.DataFrame, output_file: str = OUTPUT_CSV):
+
+def save_details_to_csv(df: pd.DataFrame, output_file: str):
     """
     Saves a DataFrame of file details to a CSV file.
 
@@ -132,10 +151,13 @@ if __name__ == "__main__":
     PATH_TO_SCAN = config.PATH_TO_SCAN
     OUTPUT_CSV = config.OUTPUT_CSV
     try:
-        paths_generator = stream_file_paths()
-        files_df = details_to_dataframe(paths_generator)
-        logger.info(f"DataFrame created with {len(files_df)} rows.")
-        logger.info(f"DataFrame head:\n{files_df.head()}")
-        save_details_to_csv(files_df)
+        paths_generator = stream_file_paths(PATH_TO_SCAN)
+        details_generator = stream_file_details(paths_generator)
+        files_df = create_dataframe_from_details(details_generator)
+        if not files_df.empty:
+            logger.info(f"DataFrame head:\n{files_df.head()}")
+            save_details_to_csv(files_df, OUTPUT_CSV)
+        else:
+            logger.warning("No files matching the pattern were found, CSV not created.")
     except Exception as e:
         logger.critical(f"A critical error occurred in the main process: {e}", exc_info=True)
