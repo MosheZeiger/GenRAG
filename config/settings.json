@@ -1,0 +1,10 @@
+{
+    "files_metadata_exporter": {
+        "path_to_scan": "D:/Google Drive/פרטי/0 פרוייקט עדכון גרסה/זמני שהות/מסמכים בית הדין הרבני/תיק 1045780/גירושין 1045780-2",
+        "output_csv": "files_details.csv"
+    },
+    "loader_to_df": {
+        "source_file": "files_details1.csv"
+    }
+
+}

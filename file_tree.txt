@@ -1,0 +1,11 @@
+File tree for: D:\git local repositories\GenRAG
+
+./
+    file_tree.txt
+    README.md
+    config/
+        config.py
+        settings.json
+    src/
+        files_metadata_exporter.py
+        loader_to_df.py

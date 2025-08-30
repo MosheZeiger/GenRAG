@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/.virtualenvs": true,
+    "**/venv": true,
+    "**/__pycache__": true,
+    "**/.vscode": false,
+    "**/.idea": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "*.log": false,
+    "*.pyc": true
+  }
+}

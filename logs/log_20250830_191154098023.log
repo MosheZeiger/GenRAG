@@ -1,0 +1,3 @@
+2025-08-30 19:11:54 - root - INFO - _file_handler - Logging to file: D:\git local repositories\GenRAG\logs\log_20250830_191154098023.log
+2025-08-30 19:11:54 - __main__ - ERROR - load_csv_to_df - Error: The file 'files_details1.csv' was not found.
+2025-08-30 19:11:54 - __main__ - WARNING - <module> - The DataFrame is empty.
