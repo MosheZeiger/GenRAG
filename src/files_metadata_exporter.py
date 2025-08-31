@@ -80,6 +80,7 @@ def get_file_details(file_path: Path):
         file_details = {
             "full_file_path_name": str(file_path),
             "path": str(file_path.parent),
+            "parent_folder_name": str(file_path.parent.name),
             "file_full_name": file_full_name,
             "file_name": file_name,
             "file_extension": file_path.suffix,
@@ -143,6 +144,28 @@ def save_details_to_csv(df: pd.DataFrame, output_file: str):
         logger.info(f"File details successfully saved to '{output_file}'.")
     except Exception as e:
         logger.error(f"Error saving to CSV: {e}", exc_info=True)
+
+def runner(root_folder_path: Path):
+    """
+    Main function to run the metadata extraction and export process.
+
+    Args:
+        root_folder_path (Path): The directory to scan for files.
+        output_csv (str): The name of the output CSV file.
+    """
+    try:
+        paths_generator = stream_file_paths(root_folder_path)
+        details_generator = stream_file_details(paths_generator)
+        files_df = create_dataframe_from_details(details_generator)
+        if not files_df.empty:
+            logger.info(f"DataFrame has {len(files_df)} rows.")
+            return files_df
+        else:
+            logger.error("No files matching the pattern were found, DF not created.")
+            raise FileNotFoundError("No files matching the pattern were found, DF not created.")
+    except Exception as e:
+        logger.critical(f"A critical error occurred in the main process: {e}", exc_info=True)
+        raise
 
 if __name__ == "__main__":
     from config import config

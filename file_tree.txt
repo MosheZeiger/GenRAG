@@ -1,11 +1,19 @@
 File tree for: D:\git local repositories\GenRAG
 
 ./
+    files_details.csv
     file_tree.txt
+    main.py
+    output_test.xlsx
     README.md
     config/
         config.py
         settings.json
     src/
+        data_comparator.py
+        exporter_df.py
         files_metadata_exporter.py
         loader_to_df.py
+        tasks/
+            run_comparing_indexig_task.py
+            __init__.py

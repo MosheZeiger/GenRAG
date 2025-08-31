@@ -1,10 +1,19 @@
 {
     "files_metadata_exporter": {
-        "path_to_scan": "D:/Google Drive/פרטי/0 פרוייקט עדכון גרסה/זמני שהות/מסמכים בית הדין הרבני/תיק 1045780/גירושין 1045780-2",
+        "path_to_scan": "D:/Google Drive/פרטי/0 פרוייקט עדכון גרסה/זמני שהות/מסמכים בית הדין הרבני/תיק 1045780",
         "output_csv": "files_details.csv"
     },
     "loader_to_df": {
         "source_file": "files_details.csv"
+    },
+    "data_comparator": {
+        "df1":{
+            "file_path": "files_details.csv",
+            "on_columns": ["file_name", "parent_folder_name"]
+        },
+        "df2":{
+            "file_path": "D:/Google Drive/פרטי/0 פרוייקט עדכון גרסה/זמני שהות/מסמכים בית הדין הרבני/אינדקס מסמכי בית הדין.xlsx",
+            "on_columns": ["שם המסמך", "תיקיית אב"]
+        }        
     }
-
 }

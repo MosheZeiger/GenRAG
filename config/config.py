@@ -31,3 +31,10 @@ OUTPUT_CSV = Path(exporter_settings.get("output_csv", "files_details.csv"))
 # Retrieve nested settings for 'loader_to_df' with defaults
 loader_settings = settings.get("loader_to_df", {})
 SOURCE_FILE = Path(loader_settings.get("source_file", "files_details.csv"))
+
+# Retrieve nested settings for 'data_comparator' with defaults
+comparator_settings = settings.get("data_comparator", {})
+DF1_SRC_PATH = Path(comparator_settings.get("df1", {}).get("file_path", "files_details.csv"))
+DF2_SRC_PATH = Path(comparator_settings.get("df2", {}).get("file_path", "D:/Google Drive/פרטי/0 פרוייקט עדכון גרסה/זמני שהות/מסמכים בית הדין הרבני/אינדקס מסמכי בית הדין.xlsx"))
+DF1_ON_COLUMNS = comparator_settings.get("df1", {}).get("on_columns", ["file_name", "parent_folder_name"])
+DF2_ON_COLUMNS = comparator_settings.get("df2", {}).get("on_columns", ["שם המסמך", "תיקיית אב"])
